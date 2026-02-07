@@ -3,68 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOSY Corretora | Imóveis de Sonho</title>
-    <link rel="stylesheet" href="Style.css">
+    <title>Josy Corretora | Imóveis e Terrenos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style>
+        :root { 
+            --primary: #2c3e50; 
+            --secondary: #e67e22; 
+            --whatsapp: #25d366; 
+            --light: #f4f4f4; 
+            --white: #ffffff; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--light); color: #333; }
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+
+        /* Header */
+        header { background: var(--primary); color: var(--white); padding: 15px 0; position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 22px; font-weight: bold; }
+        .logo span { color: var(--secondary); }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav ul li a { color: var(--white); text-decoration: none; font-size: 14px; text-transform: uppercase; }
+
+        /* Hero & Search */
+        .hero { 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com');
+            background-size: cover; background-position: center; padding: 80px 20px; text-align: center; color: var(--white);
+        }
+        .search-box { 
+            background: var(--white); padding: 20px; border-radius: 10px; 
+            display: flex; gap: 10px; max-width: 800px; margin: 20px auto; flex-wrap: wrap;
+        }
+        .search-box input, .search-box select { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 5px; min-width: 150px; }
+        .search-box button { background: var(--secondary); color: white; border: none; padding: 0 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        /* Grid e Cards */
+        .properties { padding: 40px 0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* Carrossel de Fotos */
+        .carousel-container { position: relative; height: 220px; overflow: hidden; background: #eee; }
+        .carousel-slide { display: flex; width: 100%; height: 100%; transition: transform 0.4s ease; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+        .btn-prev, .btn-next { 
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); 
+            color: white; border: none; padding: 8px; cursor: pointer; border-radius: 50%; z-index: 5;
+        }
+        .btn-prev { left: 10px; } .btn-next { right: 10px; }
+
+        .card-body { padding: 20px; }
+        .price { font-size: 22px; font-weight: bold; color: var(--secondary); display: block; margin: 10px 0; }
+        .whatsapp-btn { 
+            display: block; text-align: center; background: var(--whatsapp); color: white; 
+            text-decoration: none; padding: 12px; border-radius: 5px; font-weight: bold; 
+        }
+
+        footer { background: var(--primary); color: white; text-align: center; padding: 30px; margin-top: 40px; }
+    </style>
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <header>
-        <nav class="container">
-            <div class="logo">CORRETORA DE<span> IMOVEIS</span></div>
-            <ul>
-                <li><a href="#">Início</a></li>
-                <li><a href="#">Comprar</a></li>
-                <li><a href="#">Alugar</a></li>
-                <li><a href="#">Anunciar</a></li>
-                <li><a href="#" class="btn-contato">Contato</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <nav class="container">
+        <div class="logo">JOSY <span>CORRETORA</span></div>
+        <ul>
+            <li><a href="#">Início</a></li>
+            <li><a href="https://w.app/uwly46">Contato</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <!-- Seção Hero com Busca -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Encontre o seu lugar no mundo.</h1>
-            <p>As melhores oportunidades de compra e aluguel na sua região.</p>
-            <form class="search-box">
-                <input type="text" placeholder="Onde você quer morar?">
-                <select>
-                    <option>Tipo de Imóvel</option>
-                    <option>Casa</option>
-                    <option>Apartamento</option>
-                </select>
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
-    </section>
+<section class="hero">
+    <h1>JOSY - Seu Lar Começa Aqui</h1>
+    <div class="search-box">
+        <input type="text" id="inputBusca" placeholder="Buscar por nome ou local...">
+        <select id="selectTipo">
+            <option value="todos">Todos os tipos</option>
+            <option value="casa">Casas</option>
+            <option value="apartamento">Apartamentos</option>
+            <option value="terreno">Terrenos</option>
+        </select>
+        <button onclick="filtrar()"><i class="fa fa-search"></i>Buscar</button>
+    </div>
+</section>
 
-    <!-- Listagem de Imóveis -->
-    <section class="container properties">
-        <h2>Imóveis em Destaque</h2>
-        <div class="grid">
-            <!-- Card de Exemplo -->
-            <div class="card">
-                <div class="card-img" style="background-image: url('https://via.placeholder.com')"></div>
-                <div class="card-body">
-                    <h3>Apartamento Moderno</h3>
-                    <p class="price">R$ 450.000</p>
-                    <div class="details">
-                        <span><i class="fa fa-bed"></i> 3 Quartos</span>
-                        <span><i class="fa fa-bath"></i> 2 Banheiros</span>
-                    </div>
-                    <a href="#" class="btn-card">Ver Detalhes</a>
+<main class="container properties">
+    <div class="grid" id="lista">
+        
+        <!-- TERRENO 1 -->
+        <div class="card" data-tipo="terreno">
+            <div class="carousel-container">
+                
+                <div class="carousel-slide">
+                    <img src="terreno tucano.jpeg" alt="Foto 1">
                 </div>
             </div>
-            <!-- Adicione mais cards conforme necessário -->
+            <div class="card-body">
+                <h3>🌄Terreno: Residencial Tucano</h3>
+                <p>📐 Medidas: 10m x 20m<br>
+✨ Excelente localização<br>
+💰 Preço de oportunidade</p>
+                <span class="price">R$ 100.000</span>
+                <a href="https://w.app/9vuxmw" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> Falar com Josy
+                </a>
+            </div>
         </div>
-    </section>
 
-    <!-- Rodapé -->
-    <footer>
-        <p>&copy; 2024 Sua Corretora de Imóveis. Todos os direitos reservados.</p>
-    </footer>
+        <!-- CASA 1 -->
+        <div class="card" data-tipo="casa">
+            <div class="carousel-container">
+                <button class="btn-prev" onclick="moveSlide(this, -1)">&#10094;</button>
+                <button class="btn-next" onclick="moveSlide(this, 1)">&#10095;</button>
+                <div class="carousel-slide">
+                    <img src="casa murro1.jpeg" alt="Foto 1">
+                    <img src="casa murro2.jpeg" alt="Foto 2">
+                    <img src="casa murro3.jpeg" alt="Foto 3">
+                    <img src="casa murro4.jpeg" alt="Foto 4">
+                    <img src="casa murro5.jpeg" alt="Foto 5">
+                </div>
+            </div>
+            <div class="card-body">
+                <h3>🏡 Casa à Venda em Bairro Nobre da Cidade</h3>
+                <p>📐 Características do Imóvel<br><br>
+	•	Terreno: 10m x 30m<br>
+	•	Imóvel solto dos dois lados (maior ventilação e privacidade)<br><br>
+🏠 Composição da Casa Principal<br><br>
+	•	03 quartos<br>
+	•	02 banheiros<br>
+	•	Sala ampla e aconchegante<br>
+	•	Cozinha funcional<br>
+	•	Área de serviço<br>
+	•	Quintal espaçoso<br><br>
+    🌟 Diferenciais<br>
+	•	Localização privilegiada<br>
+	•	Próximo a área verde<br>
+	•	Imóvel versátil (residencial ou comercial)<br>
+	•	Excelente potencial de valorização
+</p>
+                <span class="price">R$ 550.000</span>
+                <a href="https://w.app/ivh0or" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> Falar com Josy
+                </a>
+            </div>
+        </div>
+
+        <!-- APARTAMENTO 1 -->
+        <div class="card" data-tipo="apartamento">
+            <div class="carousel-container">
+                <button class="btn-prev" onclick="moveSlide(this, -1)">&#10094;</button>
+                <button class="btn-next" onclick="moveSlide(this, 1)">&#10095;</button>
+                <div class="carousel-slide">
+                    <img src="https://images.unsplash.com" alt="Não disponivel">
+                </div>
+            </div>
+            <div class="card-body">
+                <h3>Não disponivel</h3>
+                <p>Não disponivel</p>
+                <span class="price">R$ 0</span>
+                <a href="https://wa.me?text=Josy, info sobre o Vista Linda" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> Não disponivel
+                </a>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p><strong>Josy Corretora de Imóveis</strong></p>
+    <p>Transformando sonhos em endereço fixo.</p>
+</footer>
+
+<script>
+    // Função do Carrossel
+    function moveSlide(button, direction) {
+        const container = button.parentElement;
+        const slide = container.querySelector('.carousel-slide');
+        const total = slide.querySelectorAll('img').length;
+        let idx = parseInt(slide.dataset.index || 0);
+        idx = (idx + direction + total) % total;
+        slide.style.transform = `translateX(-${idx * 100}%)`;
+        slide.dataset.index = idx;
+    }
+
+    // Função de Filtro
+    function filtrar() {
+        const termo = document.getElementById('inputBusca').value.toLowerCase();
+        const tipo = document.getElementById('selectTipo').value;
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            const titulo = card.querySelector('h3').innerText.toLowerCase();
+            const tipoCard = card.getAttribute('data-tipo');
+            const bateTexto = titulo.includes(termo);
+            const bateTipo = (tipo === 'todos' || tipoCard === tipo);
+            card.style.display = (bateTexto && bateTipo) ? "block" : "none";
+        });
+    }
+</script>
 
 </body>
 </html>
+
